@@ -308,14 +308,14 @@ def create_app(test_config=None):
       'message': 'method not found'
       }), 405
 
-  # @app.errorhandler(422)
-  # def unprocessable(error):
+  @app.errorhandler(422)
+  def unprocessable(error):
 
-  #   return jsonify({
-  #     'success': False,
-  #     'error': 422,
-  #     'message': 'unprocessable'
-  #     }), 422
+    return jsonify({
+      'success': False,
+      'error': 422,
+      'message': 'unprocessable'
+      }), 422
   
 
   return app
