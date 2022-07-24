@@ -12,7 +12,6 @@ Udacity is invested in creating bonding experiences for its employees and studen
 4. Search for questions based on a text query string.
 5. Play the quiz game, randomizing either all questions or within a specific category.
 
-Completing this trivia app will give you the ability to structure plan, implement, and test an API - skills essential for enabling your future applications to communicate with others.
 
 ## Local Requirement
 Requires Python 3.6 or Later
@@ -42,7 +41,7 @@ pip install -r requirements.txt
 ## Database Setup
 
 #### Running Postgresql server on windows
-To `start` your server
+To `start` your server use
 `  pg_ctl -D "c:\Program Files\PostgreSQL\[Your PostgreSQL Version]\data" start
 `
 >Example (using git bash)
@@ -50,14 +49,15 @@ To `start` your server
  pg_ctl -D "c:\Program Files\PostgreSQL\13\data" start
 ```
 
-To `Stop` your server
+To `Stop` your server use
 `  pg_ctl -D "c:\Program Files\PostgreSQL\[Your PostgreSQL Version]\data" stop
 `
 >Example (using git bash)
 ```bash
  pg_ctl -D "c:\Program Files\PostgreSQL\13\data" stop
 ```
-
+ 
+ Create a database called `trivia` using [psql](https://www.postgresql.org/docs/9.2/app-psql.html)
 
 With Postgres running, restore a database using the trivia.psql file provided. From the backend folder in terminal run:
 
