@@ -17,6 +17,54 @@ Completing this trivia app will give you the ability to structure plan, implemen
 ## Local Requirement
 Requires Python 3.6 or Later
 
+#### Virtual Environment
+
+We recommend working within a virtual environment whenever using Python for projects. This keeps your dependencies for each project separate and organized. Instructions for setting up a virtual environment for your platform can be found in the [python docs](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
+
+##### To Create a virtual Environment
+
+```
+python -m venv venv
+```
+
+##### To Start the environment for Windows Users
+```using git bash
+source venv/Script/activate
+```
+#### Backend Dependencies
+
+Once you have your virtual environment setup and running, install dependencies by navigating to the `/backend` directory and running:
+
+```git bash (For Windows Users)
+pip install -r requirements.txt
+```
+
+## Database Setup
+
+#### Running Postgresql server on windows
+To `start` your server
+`  pg_ctl -D "c:\Program Files\PostgreSQL\[Your PostgreSQL Version]\data" start
+`
+>Example (using git bash)
+```git bash
+ pg_ctl -D "c:\Program Files\PostgreSQL\13\data" start
+```
+
+To `Stop` your server
+`  pg_ctl -D "c:\Program Files\PostgreSQL\[Your PostgreSQL Version]\data" stop
+`
+>Example (using git bash)
+```bash
+ pg_ctl -D "c:\Program Files\PostgreSQL\13\data" stop
+```
+
+
+With Postgres running, restore a database using the trivia.psql file provided. From the backend folder in terminal run:
+
+```bash
+psql trivia < trivia.psql
+```
+
 ## Starting and Submitting the Project
 
 [Fork](https://help.github.com/en/articles/fork-a-repo) the [project repository](https://github.com/udacity/FSND/blob/master/projects/02_trivia_api/starter) and [Clone](https://help.github.com/en/articles/cloning-a-repository) your forked repository to your machine. Work on the project locally and make sure to push all your changes to the remote repository before submitting the link to your repository in the Classroom.

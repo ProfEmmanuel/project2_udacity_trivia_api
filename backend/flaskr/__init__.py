@@ -96,6 +96,7 @@ def create_app(test_config=None):
 
     try:
       question = Question.query.filter(Question.id == question_id).one_or_none()
+      # print('Question to be deleted -> ', question)
 
       if question is None:
         abort(404)
@@ -254,18 +255,22 @@ def create_app(test_config=None):
 
     quiz_category = body.get('quiz_category')
     p_question = body.get('previous_questions')
+    print('This quiz_category ;; -> :' , quiz_category)
 
     if (quiz_category is None) or (p_question is None):
       abort(400)
 
     # default
-    if quiz_category['id'] == 0:
-      questions = Question.query.filter(
-        Question.id.notin_(p_question)).all()
+    if (quiz_category['id'] == 0) and (quiz_category['type'] == 'click'):
+      # questions = Question.query.order_by(Question.id).filter(
+      #   ~Question.id.in_(p_question)).all()
+      questions = Question.query.all()
     else:
       questions = Question.query.filter(
-        Question.id.notin_(p_question) ,
         Question.category == quiz_category['id']).all()
+      # questions = Question.query.filter(
+      #   ~Question.id.in_(p_question) ,
+      #   Question.category == quiz_category['id']).all()
 
     next_question = random.choice(questions)
     print(next_question)
