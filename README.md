@@ -59,44 +59,57 @@ To `Stop` your server use
  
  Create a database called `trivia` using [psql](https://www.postgresql.org/docs/9.2/app-psql.html)
 
-With Postgres running, restore a database using the trivia.psql file provided. From the backend folder in terminal run:
+ ```
+ CREATE DATABASE trivia;
+ ```
+
+With Postgres running, restore a database using the trivia.psql file provided. From the backend folder in terminal(For Windows Users) run:
+`psql -f database_file -U user database_name`
 
 ```bash
-psql trivia < trivia.psql
+psql -f trivia.psql - U postgres trivia 
+```
+## Running the server
+
+From within the `backend` directory first en sure you are working using your created virtual environment.
+
+To run the server, execute:
+
+```bash
+export FLASK_APP=flaskr
+export FLASK_ENV=development
+flask run
 ```
 
-## Starting and Submitting the Project
+## Setting up the Frontend
 
-[Fork](https://help.github.com/en/articles/fork-a-repo) the [project repository](https://github.com/udacity/FSND/blob/master/projects/02_trivia_api/starter) and [Clone](https://help.github.com/en/articles/cloning-a-repository) your forked repository to your machine. Work on the project locally and make sure to push all your changes to the remote repository before submitting the link to your repository in the Classroom.
->Once you're ready, you can submit your project on the last page.
+> Note: The frontend is design to work with endpoints in the backend -> [Flask-based Backend](../backend). It is recommended you set up the backend first, using Postman or curl to test the backend first, update the endpoints in the frontend, and every thing will work perfectly.
 
-## About the Stack
+### Installing Frontend Dependencies
 
-We started the full stack application for you. It is designed with some key functional areas:
+#### Installing Node and NPM
 
-### Backend
-The [./backend](https://github.com/udacity/FSND/blob/master/projects/02_trivia_api/starter/backend/README.md) directory contains a partially completed Flask and SQLAlchemy server. You will work primarily in `__init__.py` to define your endpoints and can reference models.py for DB and SQLAlchemy setup. These are the files you'd want to edit in the backend:
+This project depends on Nodejs and Node Package Manager (NPM). Before continuing, you must download and install Node (the download includes NPM) from [https://nodejs.com/en/download](https://nodejs.org/en/download/).
 
-1. *./backend/flaskr/`__init__.py`*
-2. *./backend/test_flaskr.py*
+#### Installing project dependencies
 
+This project uses NPM to manage software dependencies. NPM Relies on the package.json file located in the `frontend` directory of this repository. After cloning, open your terminal and run:
 
-### Frontend
+```bash
+npm install
+```
 
-The [./frontend](https://github.com/udacity/FSND/blob/master/projects/02_trivia_api/starter/frontend/README.md) directory contains a complete React frontend to consume the data from the Flask server. If you have prior experience building a frontend application, you should feel free to edit the endpoints as you see fit for the backend you design. If you do not have prior experience building a frontend application, you should read through the frontend code before starting and make notes regarding:
+>Note : You can also use **npm i** it is shorthand for **npm install**
 
-1. What are the end points and HTTP methods the frontend is expecting to consume?
-2. How are the requests from the frontend formatted? Are they expecting certain parameters or payloads? 
+## Required Tasks
 
-Pay special attention to what data the frontend is expecting from each API response to help guide how you format your API. The places where you may change the frontend behavior, and where you should be looking for the above information, are marked with `TODO`. These are the files you'd want to edit in the frontend:
+## Running Your Frontend
 
-1. *./frontend/src/components/QuestionView.js*
-2. *./frontend/src/components/FormView.js*
-3. *./frontend/src/components/QuizView.js*
+The frontend app was built using create-react-app. In order to run the app in development mode use ```npm start```. You can change the script in the ```package.json``` file. 
 
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-By making notes ahead of time, you will practice the core skill of being able to read and understand code and will have a simple plan to follow to build out the endpoints of your backend API. 
+```bash
+npm start
+```
 
-
-
->View the [README within ./frontend for more details.](./frontend/README.md)
