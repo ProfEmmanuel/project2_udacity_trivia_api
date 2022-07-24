@@ -248,7 +248,7 @@ def create_app(test_config=None):
   one question at a time is displayed, the user is allowed to answer
   and shown whether they were correct or not. 
   '''
-  @app.route('/quizzes', methods=['POST'])
+  @app.route('/quiz', methods=['POST'])
   def quiz():
     body = request.get_json()
 
