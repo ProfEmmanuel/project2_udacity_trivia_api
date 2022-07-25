@@ -113,3 +113,171 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 npm start
 ```
 
+## Endpoints
+
+### GET '/categories'
+- Gets a dictionary of categories from the Category database in which the keys are the ids and the value is the corresponding category in string format.
+- Request: None
+- Response: An object  that contains an object of id: category_string.
+
+>Example: `curl http://127.0.0.1:5000/categories`
+```
+{
+	'1' : "Science",
+	'2' : "Art",
+	'3' : "Geography",
+	'4' : "History",
+	'5' : "Entertainment",
+	'6' : "Sports"
+}
+```
+
+### GET '/questions'
+- Gets a dictionary of questions, paginated in groups of 10. 
+- Response JSON object of categories, questions dictionary with answer, category, difficulty, id and question.
+
+>Example: `curl http://127.0.0.1:5000/questions`
+```
+{
+    "categories": [
+        "Science",
+        "Art",
+        "Geography",
+        "History",
+        "Entertainment",
+        "Sports"
+    ],
+    "current_category": [],
+    "questions": [
+        {
+            "answer": "Apollo 13",
+            "category": 1,
+            "difficulty": 5,
+            "id": 24,
+            "question": "The Astronomical Unit (AU) is a unit of measurement based on the average distance between what two bodies?"
+        }
+        ... # remaining questions on the page 
+    ],
+    "success": true,
+    "total_questions": 40
+}
+```
+
+### DELETE '/questions/<int:question_id>'
+- Deletes selected question by id
+- Response: 200 if the question is successfully deleted from the database.
+- Response: 404 if the question did not exist in the database
+- Response: JSON object of deleted id, remaining questions, and length of total questions
+
+>Example: `curl -X DELETE http://127.0.0.1:5000/question/14`
+```
+{
+    "deleted": 14,
+    "questions": [
+        {
+            "answer": "The Earth and the Sun",
+            "category": 1,
+            "difficulty": 5,
+            "id": 14,
+            "question": "The Astronomical Unit (AU) is a unit of measurement based on the average distance between what two bodies?"
+        }    
+        ... # the remaining on the page 
+    ],
+    "success": true,
+    "total_questions": 40
+}
+```
+
+### POST '/questions'
+- Creates a new question posted from the `add` page of the frontend.
+- Fields are: answer, question, difficulty and category. 
+- Response a success value and ID of the question.
+- If search field is present will return matching expressions
+
+>Example (Create a new entry):
+`curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json" -d '{"question":"The Astronomical Unit (AU) is a unit of measurement based on the average distance between what two bodies?", "answer":"The Earth and the Sun", "category":"1", "difficulty":"5"}'`
+```
+{
+... # show questions
+  "success": true, 
+  "total_questions": 35
+}
+
+Example (Search):
+curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json" -d '{"searchTerm":"Astronomical Unit (AU)"}'
+
+{
+  "questions": [
+    {
+      "answer": "The Earth and the Sun",
+      "question": "The Astronomical Unit (AU) is a unit of measurement based on the average distance between what two bodies?",
+      "category": 1, 
+      "difficulty": 5, 
+      "id": 34 
+    }
+  ], 
+  "success": true, 
+  "total_questions": 1
+}
+```
+
+### GET '/categories/<category_id>/questions'
+- Returns JSON response of current_category, and the questions pertaining to that category
+
+>Example: `curl http://127.0.0.1:5000/categories/2/questions`
+```
+{
+ "current_category": {
+    "id": 2, 
+    "type": "Science"
+  }, 
+  "questions": [
+    {
+      "answer": "The Liver", 
+      "category": 1, 
+      "difficulty": 4, 
+      "id": 20, 
+      "question": "What is the heaviest organ in the human body?"
+    }, 
+   ... # omitted for brevity
+  ], 
+  "success": true, 
+  "total_questions": 40
+}
+```
+
+
+### POST '/quiz'
+- Generates a quiz based on category  user chooses.
+- Response: a random question is returned
+
+Example: `curl http://127.0.0.1:5000/quiz -X POST -H "Content-Type: application/json" -d '{"quiz_category":{"type":"Science","id":1}, "previous_questions":[] }'`
+```
+{
+  "question": {
+    "answer": "One", 
+    "category": 2, 
+    "difficulty": 4, 
+    "id": 18, 
+    "question": "How many paintings did Van Gogh sell in his lifetime?"
+  }, 
+  "success": true
+}
+```
+
+### Error Handling
+
+- Response these error types  will return when the request fails
+	- 400: bad bequest
+	- 404: resource not found
+	- 405: method not found
+	- 422: unprocessable
+	- 500: internal server error
+Example 
+```
+{
+	"success": False,
+	"error": 500,
+	"message": "internal server error"
+}
+```
