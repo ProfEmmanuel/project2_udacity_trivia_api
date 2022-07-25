@@ -233,11 +233,11 @@ curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json"
   }, 
   "questions": [
     {
-      "answer": "The Liver", 
+      "answer": "The Earth and the Sun", 
       "category": 1, 
-      "difficulty": 4, 
+      "difficulty": 5, 
       "id": 20, 
-      "question": "What is the heaviest organ in the human body?"
+      "question": "The Astronomical Unit (AU) is a unit of measurement based on the average distance between what two bodies?"
     }, 
    ... # omitted for brevity
   ], 
@@ -255,11 +255,11 @@ Example: `curl http://127.0.0.1:5000/quiz -X POST -H "Content-Type: application/
 ```
 {
   "question": {
-    "answer": "One", 
-    "category": 2, 
-    "difficulty": 4, 
+    "answer": "The Earth and the Sun", 
+    "category": 1, 
+    "difficulty": 5, 
     "id": 18, 
-    "question": "How many paintings did Van Gogh sell in his lifetime?"
+    "question": "The Astronomical Unit (AU) is a unit of measurement based on the average distance between what two bodies?"
   }, 
   "success": true
 }
