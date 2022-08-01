@@ -3,14 +3,8 @@
 
 ## Full Stack Trivia
 
-Udacity is invested in creating bonding experiences for its employees and students. A bunch of team members got the idea to hold trivia on a regular basis and created a webpage to manage the trivia app and play the game, but their API experience is limited and still needs to be built out.
+This is an API that provide endpoints for Questions in the Categories of Science, Arts, Geography, History and Entertainment.
 
-
-1. Display questions - both all questions and by category. Questions should show the question, category and difficulty rating by default and can show/hide the answer.
-2. Delete questions.
-3. Add questions and require that they include question and answer text.
-4. Search for questions based on a text query string.
-5. Play the quiz game, randomizing either all questions or within a specific category.
 
 
 ## Local Requirement
@@ -99,7 +93,6 @@ This project uses NPM to manage software dependencies. NPM Relies on the package
 npm install
 ```
 
->Note : You can also use **npm i** it is shorthand for **npm install**
 
 ## Required Tasks
 
@@ -107,7 +100,7 @@ npm install
 
 The frontend app was built using create-react-app. In order to run the app in development mode use ```npm start```. You can change the script in the ```package.json``` file. 
 
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [http://localhost:5000](http://localhost:5000) to view it in the browser.
 
 ```bash
 npm start
@@ -136,7 +129,7 @@ npm start
 - Gets a dictionary of questions, paginated in groups of 10. 
 - Response JSON object of categories, questions dictionary with answer, category, difficulty, id and question.
 
->Example: `curl http://127.0.0.1:5000/questions`
+>E.g: `curl http://127.0.0.1:5000/questions`
 ```
 {
     "categories": [
@@ -203,7 +196,7 @@ npm start
   "total_questions": 35
 }
 
-Example (Search):
+E.g:
 curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json" -d '{"searchTerm":"Astronomical Unit (AU)"}'
 
 {
@@ -224,7 +217,7 @@ curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json"
 ### GET '/categories/<category_id>/questions'
 - Returns JSON response of current_category, and the questions pertaining to that category
 
->Example: `curl http://127.0.0.1:5000/categories/2/questions`
+>E.g: `curl http://127.0.0.1:5000/categories/2/questions`
 ```
 {
  "current_category": {
@@ -251,7 +244,7 @@ curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json"
 - Generates a quiz based on category  user chooses.
 - Response: a random question is returned
 
-Example: `curl http://127.0.0.1:5000/quiz -X POST -H "Content-Type: application/json" -d '{"quiz_category":{"type":"Science","id":1}, "previous_questions":[] }'`
+E.g: `curl http://127.0.0.1:5000/quiz -X POST -H "Content-Type: application/json" -d '{"quiz_category":{"type":"Science","id":1}, "previous_questions":[] }'`
 ```
 {
   "question": {
@@ -265,15 +258,15 @@ Example: `curl http://127.0.0.1:5000/quiz -X POST -H "Content-Type: application/
 }
 ```
 
-### Error Handling
+## Error Handling
 
-- Response these error types  will return when the request fails
+- Response: these error types  will return when the request fails
 	- 400: bad bequest
 	- 404: resource not found
 	- 405: method not found
 	- 422: unprocessable
 	- 500: internal server error
-Example 
+E.g 
 ```
 {
 	"success": False,

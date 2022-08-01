@@ -8,14 +8,15 @@ from models import setup_db, Question, Category
 
 
 class TriviaTestCase(unittest.TestCase):
-    """This class represents the trivia test case"""
+    """This class represponseents the trivia test case"""
 
     def setUp(self):
         """Define test variables and initialize app."""
         self.app = create_app()
         self.client = self.app.test_client
         self.database_name = "trivia_test"
-        self.database_path = "postgresql://{}:{}@{}/{}".format('postgres', 'password','localhost:5432', self.database_name)
+        self.database_path = "postgresponseql://{}:{}@{}/{}".format('postgresponse', 'presponseidenT98!'
+            ,'localhost:5432', self.database_name)
         setup_db(self.app, self.database_path)
 
         # binds the app to the current context
@@ -43,105 +44,108 @@ class TriviaTestCase(unittest.TestCase):
 
     # paginated_questions
      def test_paginated_questions(self):
-        res = self.client().get('/questions')
-        data = json.loads(res.data)
+        response = self.client().get('/questions')
+        body = json.loads(response.data)
 
-        self.assertEqual(res.status_code, 200)
-        self.assertEqual(data['success'], True)
-        self.assertTrue(data['questions'])
-        self.assertTrue(len(data['questions']))
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(body['questions'])
+        self.assertTrue(len(body['questions']))
+        self.assertEqual(body['success'], True)
+        
 
     def test_404_paginated_questions(self):
-        res = self.client().get('/questions?page=100', json={'category': 1})
-        data = json.loads(res.data)
+        response = self.client().get('/questions?page=100', json={'category': 1})
+        body = json.loads(response.data)
 
-        self.assertEqual(res.status_code, 404)
-        self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], 'resource not found')
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(body['success'], False)
+        self.assertEqual(body['message'], 'resource not found')
 
     # Testing deletion
     def test_delete_question(self):
-        res = self.client().delete('/questions/2')
-        data = json.loads(res.data)
+        response = self.client().delete('/questions/2')
+        body = json.loads(response.data)
 
-        self.assertEqual(res.status_code, 200)
-        self.assertEqual(data['success'], True)
-        self.assertEqual(data['deleted'], 2)
-        self.assertTrue(data['total_questions'])
-        self.assertTrue(len(data['questions']))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(body['success'], True)
+        self.assertEqual(body['deleted'], 2)
+        self.assertTrue(body['total_questions'])
+        self.assertTrue(len(body['questions']))
 
     def test_422_if_question_to_delete_does_not_exist(self):
-        res = self.client().delete('/questions/100')
-        data = json.loads(res.data)
+        response = self.client().delete('/questions/100')
+        body = json.loads(response.data)
 
-        self.assertEqual(res.status_code, 422)
-        self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], 'unprocessable')
+        self.assertEqual(response.status_code, 422)
+        self.assertEqual(body['success'], False)
+        self.assertEqual(body['message'], 'unprocessable')
 
     # Testing categories
     def test_categories(self):
-        res = self.client().get('/categories')
-        data = json.loads(res.data)
+        response = self.client().get('/categories')
+        body = json.loads(response.data)
 
-        self.assertEqual(res.status_code, 200)
-        self.assertEqual(data['success'], True)
-        self.assertTrue(data['categories'])
-        self.assertTrue(len(data['categories']))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(body['success'], True)
+        self.assertTrue(body['categories'])
+        self.assertTrue(len(body['categories']))
 
     def test_questions_by_categories(self):
-        res = self.client().get('categories/1/questions')
-        data = json.loads(res.data)
+        response = self.client().get('categories/1/questions')
+        body = json.loads(response.data)
 
-        self.assertEqual(data['success'], True)
-        self.assertTrue(data['questions'])
-        self.assertTrue(data['categories'])
+        self.assertEqual(body['success'], True)
+        self.assertTrue(body['questions'])
+        self.assertTrue(body['categories'])
 
     def test_404_questions_by_categories(self):
-        res = self.client().get('categories/100/questions')
-        data = json.loads(res.data)
+        response = self.client().get('categories/100/questions')
+        body = json.loads(response.data)
 
-        self.assertEqual(res.status_code, 404)
-        self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], 'resource not found')
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(body['success'], False)
+        self.assertEqual(body['message'], 'responseource not found')
 
     # Testing the add route on the frontend
     def test_question(self):
-        res = self.client().post('/questions', json=self.new_question)
-        self.assertTrue(res.status_code, 200)
+        response = self.client().post('/questions', json=self.new_question)
+        self.assertTrue(response.status_code, 200)
 
-        data = json.loads(res.data)
-        self.assertTrue(data['success'])
+        body = json.loads(response.data)
+        self.assertTrue(body['success'])
+        self.assertTrue(body['total_questions'])
+        self.assertTrue(len(body['questions']))
 
     def test_search_question(self):
-        res = self.client().post('/questions', json={'searchTerm': 'question'})
-        data = json.loads(res.data)
+        response = self.client().post('/questions', json={'searchTerm': 'question'})
+        body = json.loads(response.data)
 
-        self.assertEqual(res.status_code, 200)
-        self.assertTrue(data['questions'])
-        self.assertEqual(len(data['questions']), 10)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(body['questions'])
+        self.assertEqual(len(body['questions']), 10)
 
     # Testing the quiz route
     def test_quiz(self):
-        res = self.client().post('/quiz',
+        response = self.client().post('/quiz',
                                  json={'previous_questions': [],
                                        'quiz_category':
                                        {'id': '1', 'type': 'Science'}})
-        data = json.loads(res.data)
+        body = json.loads(response.data)
 
-        self.assertEqual(res.status_code, 200)
-        self.assertTrue(data['question'])
-        self.assertEqual(data['question']['category'], 1)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(body['question'])
+        self.assertEqual(body['question']['category'], 1)
 
     def test_422_quiz(self):
-        res = self.client().post('/quiz',
+        response = self.client().post('/quiz',
                                  json={
                                      'previous_questions': []
                                  })
-        data = json.loads(res.data)
+        body = json.loads(response.data)
 
-        self.assertEqual(res.status_code, 422)
-        self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], 'unprocessable')
+        self.assertEqual(response.status_code, 422)
+        self.assertEqual(body['success'], False)
+        self.assertEqual(body['message'], 'unprocessable')
 
 
 # Make the tests conveniently executable
