@@ -90,6 +90,8 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(body['categories'])
         self.assertTrue(len(body['categories']))
 
+    
+
     def test_questions_by_categories(self):
         response = self.client().get('categories/1/questions')
         body = json.loads(response.data)
@@ -109,13 +111,22 @@ class TriviaTestCase(unittest.TestCase):
     # Testing the add route on the frontend
     def test_question(self):
         response = self.client().post('/questions', json=self.new_question)
-        self.assertTrue(response.status_code, 200)
 
         body = json.loads(response.data)
         # print(body)
+        self.assertTrue(response.status_code, 200)
         self.assertTrue(body['success'])
         self.assertTrue(body['total_questions'])
         self.assertTrue(len(body['questions']))
+
+    def error_422_test_question(self):
+        response = self.client().post('/questions', json={'question': '',
+            'answer': '','category': 1,'difficulty': 5,})
+        body = json.loads(response.data)
+
+        self.assertTrue(response.status_code, 422)
+        self.assertTrue(body['success'], False)
+        self.assertEqual(body['message'], 'unprocessable')
 
     def test_search_question(self):
         response = self.client().post('/questions', json={'searchTerm': 'based'})
@@ -123,7 +134,14 @@ class TriviaTestCase(unittest.TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTrue(body['questions'])
-        self.assertEqual(len(body['questions']), 10)
+    
+    def test_422_search_question(self):
+        response = self.client().post('/questions', json={'searchTerm': ''})
+        body = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 422)
+        self.assertEqual(body['success'], False)
+        self.assertEqual(body['message'], 'unprocessable')
 
     # Testing the quiz route
     def test_quiz(self):

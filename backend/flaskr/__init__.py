@@ -47,13 +47,17 @@ def create_app(test_config=None):
   def get_categories():
     categories = Category.query.order_by(Category.type).all()
 
-    if len(categories) == 0:
-      abort(404)
-    
-    return jsonify({
-      'success': True,
-      'categories': {category.id: category.type for category in categories}
-      })
+    try:
+
+      if len(categories) == 0:
+        abort(404)
+      
+      return jsonify({
+        'success': True,
+        'categories': {category.id: category.type for category in categories}
+        })
+    except:
+      abort(400)
 
   '''
   @DONE: 
@@ -99,17 +103,15 @@ def create_app(test_config=None):
       print('Question to be deleted -> ', question)
 
       if question is None:
-        print('I got here')
         abort(404)
 
       else:
-        print('Got here')
         question.delete()
 
       return jsonify({
         'success': True,
         'deleted': question_id,
-        'total_question': len(Question.query.all()),
+        'total_questions': len(Question.query.all()),
         'message': 'You successfully deleted the question'
         })
     except Exception as error:
@@ -154,7 +156,13 @@ def create_app(test_config=None):
           'current_category': None
           })
 
+      elif search == '':
+        abort(422)
+
       else:
+
+        if (new_question == '' or new_answer=='' or new_category =='' or new_difficulty ==''):
+          abort(422)
 
         question = Question(question=new_question, answer=new_answer,
           category=new_category,difficulty=new_difficulty)
@@ -283,13 +291,15 @@ def create_app(test_config=None):
         #   ~Question.id.not_in_(p_question) ,
         #   Question.category == quiz_category['id']).all()
 
-      next_question = random.choice(questions)
+      next_question = questions.pop()
 
       while  next_question.id in p_question :
         if len(p_question) == 0:
           break
+        elif len(questions) == 0:
+          break
         else:
-          next_question = random.choice(questions)
+          next_question = questions.pop()
       # print(next_question)
 
       return jsonify({
