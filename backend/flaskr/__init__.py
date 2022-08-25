@@ -76,7 +76,7 @@ def create_app(test_config=None):
       return jsonify({
         'success': True,
         'questions': current_page,
-        'total_question': len(Question.query.all()),
+        'total_questions': len(Question.query.all()),
         'categories': {category.id: category.type for category in categories}
         })
 
@@ -109,7 +109,7 @@ def create_app(test_config=None):
       return jsonify({
         'success': True,
         'deleted': question_id,
-        'total_question': len(Book.query.all()),
+        'total_question': len(Question.query.all()),
         'message': 'You successfully deleted the question'
         })
     except Exception as error:
@@ -169,7 +169,7 @@ def create_app(test_config=None):
         return jsonify({
           'success': True,
           'questions': current_page,
-          'total_question': len(Question.query.all()),
+          'total_questions': len(Question.query.all()),
           'categories': {category.id: category.type for category in categories},
           })
     except:
@@ -228,18 +228,22 @@ def create_app(test_config=None):
     questions = Question.query.order_by(Question.id).filter(
                             Question.category == category_id).all()
 
-    if len(questions) == 0:
-      abort(422)
+    try:
 
-    else:
-      current_page = paginate_question(request, questions)
+      if len(questions) == 0:
+        abort(422)
 
-      return jsonify({
-        'success': True,
-        'questions': current_page,
-        'total_questions': len(questions),
-        'category': category_id 
-        })
+      else:
+        current_page = paginate_question(request, questions)
+
+        return jsonify({
+          'success': True,
+          'questions': current_page,
+          'total_questions': len(questions),
+          'categories': category_id 
+          })
+    except:
+      abort(404)
 
 
   '''
@@ -259,37 +263,41 @@ def create_app(test_config=None):
 
     quiz_category = body.get('quiz_category')
     p_question = body.get('previous_questions')
-    print('This quiz_category ;; -> :' , quiz_category)
-    print('This quiz_pq ;; -> :' , p_question)
+    # print('This quiz_category ;; -> :' , quiz_category)
+    # print('This quiz_pq ;; -> :' , p_question)
 
-    if (quiz_category is None) or (p_question is None):
-      abort(400)
+    try:
 
-    # default
-    if (quiz_category['id'] == 0) and (quiz_category['type'] == 'click'):
-      # questions = Question.query.order_by(Question.id).filter(
-      #   ~Question.id.in_(p_question)).all()
-      questions = Question.query.all()
-    else:
-      questions = Question.query.filter(Question.category == quiz_category['id']).all()
-      # questions = Question.query.filter(Question.id.not_in_(p_question)).all()
-      # questions = Question.query.filter(
-      #   ~Question.id.not_in_(p_question) ,
-      #   Question.category == quiz_category['id']).all()
+      if (quiz_category is None) or (p_question is None):
+        abort(400)
 
-    next_question = random.choice(questions)
-
-    while  next_question.id in p_question :
-      if len(p_question) == 0:
-        break
+      # default
+      if (quiz_category['id'] == 0) and (quiz_category['type'] == 'click'):
+        # questions = Question.query.order_by(Question.id).filter(
+        #   ~Question.id.in_(p_question)).all()
+        questions = Question.query.all()
       else:
-        next_question = random.choice(questions)
-    print(next_question)
+        questions = Question.query.filter(Question.category == quiz_category['id']).all()
+        # questions = Question.query.filter(Question.id.not_in_(p_question)).all()
+        # questions = Question.query.filter(
+        #   ~Question.id.not_in_(p_question) ,
+        #   Question.category == quiz_category['id']).all()
 
-    return jsonify({
-      'success': True,
-      'question': next_question.format()
+      next_question = random.choice(questions)
+
+      while  next_question.id in p_question :
+        if len(p_question) == 0:
+          break
+        else:
+          next_question = random.choice(questions)
+      # print(next_question)
+
+      return jsonify({
+        'success': True,
+        'question': next_question.format()
       })
+    except:
+      abort(422)
 
 
   '''

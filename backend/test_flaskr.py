@@ -15,7 +15,7 @@ class TriviaTestCase(unittest.TestCase):
         self.app = create_app()
         self.client = self.app.test_client
         self.database_name = "trivia_test"
-        self.database_path = "postgresponseql://{}:{}@{}/{}".format('postgresponse', 'presponseidenT98!'
+        self.database_path = "postgresql://{}:{}@{}/{}".format('postgres', 'presidenT98!'
             ,'localhost:5432', self.database_name)
         setup_db(self.app, self.database_path)
 
@@ -63,12 +63,12 @@ class TriviaTestCase(unittest.TestCase):
 
     # Testing deletion
     def test_delete_question(self):
-        response = self.client().delete('/questions/2')
+        response = self.client().delete('/questions/20')
         body = json.loads(response.data)
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(body['success'], True)
-        self.assertEqual(body['deleted'], 2)
+        self.assertEqual(body['deleted'], 20)
         self.assertTrue(body['total_questions'])
         self.assertTrue(len(body['questions']))
 
@@ -104,7 +104,7 @@ class TriviaTestCase(unittest.TestCase):
 
         self.assertEqual(response.status_code, 404)
         self.assertEqual(body['success'], False)
-        self.assertEqual(body['message'], 'responseource not found')
+        self.assertEqual(body['message'], 'resource not found')
 
     # Testing the add route on the frontend
     def test_question(self):
@@ -112,12 +112,13 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(response.status_code, 200)
 
         body = json.loads(response.data)
+        # print(body)
         self.assertTrue(body['success'])
         self.assertTrue(body['total_questions'])
         self.assertTrue(len(body['questions']))
 
     def test_search_question(self):
-        response = self.client().post('/questions', json={'searchTerm': 'question'})
+        response = self.client().post('/questions', json={'searchTerm': 'based'})
         body = json.loads(response.data)
 
         self.assertEqual(response.status_code, 200)
