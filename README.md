@@ -74,6 +74,7 @@ export FLASK_APP=flaskr
 export FLASK_ENV=development
 flask run
 ```
+The server will be running on  [http://localhost:3000](http://localhost:3000) .
 
 ## Setting up the Frontend
 
