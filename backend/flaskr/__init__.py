@@ -95,21 +95,25 @@ def create_app(test_config=None):
   def delete_question(question_id):
 
     try:
-      question = Question.query.filter(Question.id == question_id).one_or_none()
-      # print('Question to be deleted -> ', question)
+      question = Question.query.get(question_id)
+      print('Question to be deleted -> ', question)
 
       if question is None:
+        print('I got here')
         abort(404)
 
       else:
+        print('Got here')
         question.delete()
 
-        return jsonify({
-          'success': True,
-          'deleted': question_id,
-          'total_question': len(Book.query.all())
-          })
-    except:
+      return jsonify({
+        'success': True,
+        'deleted': question_id,
+        'total_question': len(Book.query.all()),
+        'message': 'You successfully deleted the question'
+        })
+    except Exception as error:
+      print(error)
       abort(422)
 
   '''
