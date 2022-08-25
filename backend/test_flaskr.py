@@ -43,7 +43,7 @@ class TriviaTestCase(unittest.TestCase):
     """
 
     # paginated_questions
-     def test_paginated_questions(self):
+    def test_paginated_questions(self):
         response = self.client().get('/questions')
         body = json.loads(response.data)
 
