@@ -256,6 +256,7 @@ def create_app(test_config=None):
     quiz_category = body.get('quiz_category')
     p_question = body.get('previous_questions')
     print('This quiz_category ;; -> :' , quiz_category)
+    print('This quiz_pq ;; -> :' , p_question)
 
     if (quiz_category is None) or (p_question is None):
       abort(400)
@@ -266,13 +267,19 @@ def create_app(test_config=None):
       #   ~Question.id.in_(p_question)).all()
       questions = Question.query.all()
     else:
-      questions = Question.query.filter(
-        Question.category == quiz_category['id']).all()
+      questions = Question.query.filter(Question.category == quiz_category['id']).all()
+      # questions = Question.query.filter(Question.id.not_in_(p_question)).all()
       # questions = Question.query.filter(
-      #   ~Question.id.in_(p_question) ,
+      #   ~Question.id.not_in_(p_question) ,
       #   Question.category == quiz_category['id']).all()
 
     next_question = random.choice(questions)
+
+    while  next_question.id in p_question :
+      if len(p_question) == 0:
+        break
+      else:
+        next_question = random.choice(questions)
     print(next_question)
 
     return jsonify({

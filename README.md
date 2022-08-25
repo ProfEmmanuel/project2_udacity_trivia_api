@@ -74,7 +74,15 @@ export FLASK_APP=flaskr
 export FLASK_ENV=development
 flask run
 ```
-The server will be running on  [http://localhost:3000](http://localhost:3000) .
+If you are on a windows machine:
+
+```bash
+set FLASK_APP=flaskr
+set FLASK_ENV=development
+flask run
+```
+
+The server will be running on  [http://localhost:5000](http://localhost:5000) .
 
 ## Setting up the Frontend
 
@@ -101,7 +109,7 @@ npm install
 
 The frontend app was built using create-react-app. In order to run the app in development mode use ```npm start```. You can change the script in the ```package.json``` file. 
 
-Open [http://localhost:5000](http://localhost:5000) to view it in the browser.
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ```bash
 npm start
